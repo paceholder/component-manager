@@ -1,0 +1,47 @@
+{
+  "module" : {
+    "name" : "CoreComponent",
+
+    "path" : "../lib",
+
+    "components" : [
+      {
+        "name" : "SimpleMainWindow",
+
+        "construction" : "singleton",
+
+        "for future : class" : "SimpleMainWindow",
+
+        "functions" : [
+          {
+            "name" : "addToToolBar",
+
+            "signature" : [ "component" ]
+          }
+        ]
+      }
+    ],
+
+    "calls" : [
+      {
+        "component" : "SimpleMainWindow",
+
+        "function" : "addToToolBar",
+
+        "parameters" : [
+          { "component" : "CustomAction"}
+        ]
+      },
+
+      {
+        "component" : "MainWindow",
+
+        "function" : "addToToolBar",
+
+        "parameters" : [
+          { "component" : "CustomActionFromFactory" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+#include "SomePrototypeComponentWithParent.hpp"

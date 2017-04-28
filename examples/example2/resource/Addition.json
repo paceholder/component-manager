@@ -1,0 +1,48 @@
+{
+  "module" : {
+    "name" : "AdditionComponent",
+
+    "path" : "../lib",
+
+    "components" : [
+      {
+        "name" : "CustomAction",
+
+        "construction" : "prototype",
+
+        "constructor_parameters" : [
+            {"component" : "SimpleMainWindow" }
+        ]
+      },
+
+
+      {
+        "name" : "CustomActionFromFactory",
+
+        "construction" : "factory",
+
+        "factory" : "CustomActionFactory",
+
+        "function" : "createCustomAction",
+
+        "parameters" : [
+          { "component" : "SimpleMainWindow" }
+        ]
+      },
+
+      {
+        "name" : "CustomActionFactory",
+
+        "construction" : "singleton",
+
+        "functions" : [
+          {
+            "name" : "createCustomAction",
+
+            "signature" : [ "component" ]
+          }
+        ]
+      }
+    ]
+  }
+}
