@@ -3,6 +3,7 @@
 The library helps to build modular applications based on the Qt framework
 and particularly [Qt Meta-Object Sytem](http://doc.qt.io/qt-5/metaobjects.html).
 
+
 ## Qt Component Manager in a nutshell
 
 The Component Manager helps to instantiate `QObject` derivatives by their identifier
