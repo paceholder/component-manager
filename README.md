@@ -1,3 +1,5 @@
+Linux (x64, gcc-4.8, clang-3.6): [![Build Status](https://travis-ci.org/paceholder/component-manager.svg?branch=master)](https://travis-ci.org/paceholder/component-manager)
+
 # Qt Component Manager
 
 The library helps to build modular applications based on the Qt framework
