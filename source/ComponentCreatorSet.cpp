@@ -32,23 +32,24 @@ createComponentCreatorSet(QJsonObject jsonObject)
 
   auto it = jsonObject.find("components");
 
-  auto getString = [] (QJsonObject const & obj, QString str)
-                   {
-                     QJsonValue val = obj.value(str);
+  auto getString =
+    [] (QJsonObject const & obj, QString str)
+    {
+      QJsonValue val = obj.value(str);
 
-                     if (val.type() == QJsonValue::Undefined ||
-                         val.type() == QJsonValue::Null)
-                     {
-                       qCritical() << "No value with the name " << str;
-                     }
+      if (val.type() == QJsonValue::Undefined ||
+          val.type() == QJsonValue::Null)
+      {
+        qCritical() << "No value with the name " << str;
+      }
 
-                     return val.toString();
-                   };
+      return val.toString();
+    };
 
   if (it != jsonObject.end() &&
-      it->isArray())
+      (*it).isArray())
   {
-    QJsonArray array = it->toArray();
+    QJsonArray array = (*it).toArray();
 
     for (QJsonValueRef const &ref : array)
     {
@@ -100,5 +101,4 @@ createComponentCreatorSet(QString jsonObjectUtf8)
 
   return createComponentCreatorSet(jsonObject);
 }
-
 }
