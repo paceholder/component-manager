@@ -41,8 +41,6 @@ endmacro()
 if (NOT TARGET ComponentManager)
   set(ComponentManager_FOUND False)
 
-  find_package(Uni REQUIRED)
-
   add_library(ComponentManager SHARED IMPORTED)
 
   set(ComponentManager_LIBRARY_DIR "${_ComponentManager_INSTALL_PREFIX}/lib")
@@ -56,8 +54,8 @@ if (NOT TARGET ComponentManager)
     #           PATHS ${ComponentManager_LIBRARY_DIR})
     #set(CMAKE_FIND_LIBRARY_SUFFIXES ${_temp_CMAKE_FIND_LIBRARY_SUFFIXES})
     find_library(ComponentManager_LIBRARY
-             NAMES ComponentManager
-             PATHS ${ComponentManager_LIBRARY_DIR})
+                 NAMES ComponentManager
+                 PATHS ${ComponentManager_LIBRARY_DIR})
     _populate_dependency_manager_target_properties(ComponentManager RELEASE "" ${ComponentManager_LIBRARY} "")
     _populate_dependency_manager_target_properties(ComponentManager DEBUG "" ${ComponentManager_LIBRARY} "")
   else()
@@ -75,13 +73,10 @@ if (NOT TARGET ComponentManager)
   endif()
 
   list(APPEND ComponentManager_INCLUDE_DIRS "${_ComponentManager_INSTALL_PREFIX}/include")
-  list(APPEND ComponentManager_INCLUDE_DIRS "${Loki_INCLUDE_DIRS}")
 
   _dependency_manager_check_file_exists(${ComponentManager_INCLUDE_DIRS} ComponentManager)
 
   set_property(TARGET ComponentManager PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${ComponentManager_INCLUDE_DIRS})
-
-  set(ComponentManager_DEFENITIONS "ComponentManager_SHARED ${Loki_DEFENITIONS}")
 
   set_property(TARGET ComponentManager PROPERTY INTERFACE_COMPILE_DEFINITIONS ${ComponentManager_DEFENITIONS})
 
