@@ -42,7 +42,7 @@ public:
 };
 
 
-#include <ComponentManager/Components/ComponentRegistry>
+#include <ComponentManager/ComponentRegistry>
 
 // The only required public function
 
