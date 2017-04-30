@@ -12,98 +12,98 @@ It is also possible to cast the resulting pointer `QObject*` to some pre-defined
 
 The instantiation is as easy as:
 
-@code{.cpp}
-  auto someComponent = ComponentManager::create<IComponent>("FancyComponent");
-@endcode
+```cpp
+auto someComponent = ComponentManager::create<IComponent>("FancyComponent");
+```
 
 ## Example
 
 ### 1. Module (Shared Library). Define your objects and register them
 
 
-@code{.cpp}
+```cpp
 
-  // CustomModule.cpp
+// CustomModule.cpp
 
-  class CPP_EXPORT_MACRO CustomAction : public QAction
+class CPP_EXPORT_MACRO CustomAction : public QAction
+{
+  Q_OBJECT // <- important
+
+public:
+  Q_INVOKABLE // <- important
+  CustomAction(QObject* parent)
+    : QAction("Custom Action", parent) {}
+
+  virtual
+  ~CustomAction() = default;
+};
+
+
+#include <ComponentManager/Components/ComponentRegistry>
+
+// The only required public function
+
+extern "C"
+{
+  void
+  CPP_EXPORT_MACRO
+  registerComponent()
   {
-    Q_OBJECT // <- important
-
-  public:
-    Q_INVOKABLE // <- important
-    CustomAction(QObject* parent)
-      : QAction("Custom Action", parent) {}
-
-    virtual
-    ~CustomAction() = default;
-  };
-
-
-  #include <ComponentManager/Components/ComponentRegistry>
-
-  // The only required public function
-
-  extern "C"
-  {
-    void
-    CPP_EXPORT_MACRO
-    registerComponent()
-    {
-      REGISTER_TYPE(CustomAction);
-    }
+    REGISTER_TYPE(CustomAction);
   }
-@endcode
+}
+```
 
 ### 2. Prepare JSON-based module description
 
 `CustomModule.json`:
 
-@code{.json}
-  {
-    "module" : {
-      "name" : "CustomModule",
+```json
+{
+  "module" : {
+    "name" : "CustomModule",
 
-      "path" : "../lib",
+    "path" : "../lib",
 
-      "components" : [
-        {
-          "name" : "CustomAction",
+    "components" : [
+      {
+        "name" : "CustomAction",
 
-          "construction" : "prototype",
-        }
-      ]
-    }
+        "construction" : "prototype",
+      }
+    ]
   }
-@endcode
+}
+```
 
 
 
 ### 3. Write main application with using modules
 
-@code{.cpp}
-  int
-  main(int argc, char* argv[])
-  {
-    // Create Qt application
-    QApplication application(argc, argv);
+```cpp
+int
+main(int argc, char* argv[])
+{
+  // Create Qt application
+  QApplication application(argc, argv);
 
-    // We assume that CustomModule.json is located next to the executable
+  // We assume that CustomModule.json is located next to the executable
 
-    QDir directory(QCoreApplication::applicationDirPath());
+  QDir directory(QCoreApplication::applicationDirPath());
 
-    QString jsonFile = directory.absoluteFilePath("CustomModule.json");
+  QString jsonFile = directory.absoluteFilePath("CustomModule.json");
 
-    // This line loads shared libraries and registers available components
+  // This line loads shared libraries and registers available components
 
-    ComponentManager::loadModule(jsonFile);
+  ComponentManager::loadModule(jsonFile);
 
-    // Create components at any place in your program
+  // Create components at any place in your program
 
-    CustomAction* customAction =
-      ComponentManager::create<CustomAction*>("CustomAction");
+  CustomAction* customAction =
+    ComponentManager::create<CustomAction*>("CustomAction");
 
-    // Use customAction
+  // Use customAction
 
-    return application.exec();
-  }
-@endcode
+  return application.exec();
+}
+```
