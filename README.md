@@ -84,6 +84,9 @@ extern "C"
 ### 3. Write main application with using modules
 
 ```cpp
+#include <ComponentManager/ModuleLoader>
+#include <ComponentManager/Creator>
+
 int
 main(int argc, char* argv[])
 {
