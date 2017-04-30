@@ -6,6 +6,7 @@
 
 #include <iostream>
 
+#include <QtCore/QJsonObject>
 #include <QtCore/QJsonValue>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
@@ -100,18 +101,4 @@ createComponentCreatorSet(QString jsonObjectUtf8)
   return createComponentCreatorSet(jsonObject);
 }
 
-
-//IComponentCreator const *
-//ComponentCreatorSet::
-//has(QString componentName) const
-//{
-////
-
-//auto it = _componentCreators.find(componentName);
-
-//if (it != _componentCreators.end())
-//return it->second.get();
-
-//return nullptr;
-//}
 }
