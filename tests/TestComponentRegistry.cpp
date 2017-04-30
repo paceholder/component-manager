@@ -2,7 +2,7 @@
 
 #include <QtCore/QObject>
 
-#include <ComponentManager/Components/ComponentRegistry>
+#include <ComponentManager/ComponentRegistry>
 
 class TestObject : public QObject
 {

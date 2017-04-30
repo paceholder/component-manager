@@ -1,7 +1,7 @@
 #include <QtWidgets/QAction>
 #include <QtCore/QDebug>
 
-#include <ComponentManager/Components/ComponentRegistry>
+#include <ComponentManager/ComponentRegistry>
 
 #include "AdditionExport.hpp"
 

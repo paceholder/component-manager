@@ -1,9 +1,9 @@
 #include <catch/catch.hpp>
 
-#include <ComponentManager/Components/ComponentRegistry>
-#include <ComponentManager/Components/Creator>
-#include <ComponentManager/Components/ComponentCreatorSet>
-#include <ComponentManager/Components/IComponentCreator>
+#include <ComponentManager/ComponentRegistry>
+#include <ComponentManager/Creator>
+#include <ComponentManager/ComponentCreatorSet>
+#include <ComponentManager/IComponentCreator>
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,4 @@
-file(GLOB_RECURSE CPP_FILES "${PROJECT_DIR}/source/Components/*.cpp"
-                            "${PROJECT_DIR}/source/Logging/*.cpp")
+file(GLOB_RECURSE CPP_FILES "${PROJECT_DIR}/source/*.cpp")
 
 add_library(ComponentManager SHARED ${CPP_FILES})
 
@@ -18,7 +17,7 @@ set_target_properties(ComponentManager PROPERTIES
 
 target_link_libraries(ComponentManager Qt5::Core)
 
-install(DIRECTORY "${PROJECT_DIR}/include/ComponentManager/Components"
+install(DIRECTORY "${PROJECT_DIR}/include/ComponentManager"
         DESTINATION ${INSTALL_INCLUDE_DIR})
 
 #install(DIRECTORY "${PROJECT_DIR}/source/"

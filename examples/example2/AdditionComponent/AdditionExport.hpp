@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ComponentManager/Components/Export>
+#include <ComponentManager/Export>
 
 #ifdef ADDITION_EXPORTS
   #define ADDITION_PUBLIC CM_EXPORT

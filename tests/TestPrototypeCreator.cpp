@@ -1,9 +1,9 @@
 #include <catch/catch.hpp>
 
-#include <ComponentManager/Components/ComponentRegistry>
-#include <ComponentManager/Components/ComponentCreatorSet>
-#include <ComponentManager/Components/IComponentCreator>
-#include <ComponentManager/Components/Creator>
+#include <ComponentManager/ComponentRegistry>
+#include <ComponentManager/ComponentCreatorSet>
+#include <ComponentManager/IComponentCreator>
+#include <ComponentManager/Creator>
 
 #include <QDebug>
 

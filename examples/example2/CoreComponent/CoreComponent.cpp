@@ -2,7 +2,7 @@
 
 #include <QtCore/QDebug>
 
-#include <ComponentManager/Components/ComponentRegistry>
+#include <ComponentManager/ComponentRegistry>
 
 #include "CoreExport.hpp"
 

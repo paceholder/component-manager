@@ -7,8 +7,8 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QAction>
 
-#include <ComponentManager/Components/ModuleLoader>
-#include <ComponentManager/Components/Creator>
+#include <ComponentManager/ModuleLoader>
+#include <ComponentManager/Creator>
 
 #include <SimpleMainWindow.hpp>
 
