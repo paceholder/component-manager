@@ -17,6 +17,8 @@
 #include "SingletonComponentCreator.hpp"
 #include "FactoryComponentCreator.hpp"
 
+#include "make_unique.hpp"
+
 namespace ComponentManager
 {
 
