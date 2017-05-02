@@ -3,6 +3,7 @@ file(GLOB_RECURSE CPP_FILES "${PROJECT_DIR}/source/*.cpp")
 add_library(ComponentManager SHARED ${CPP_FILES})
 
 target_include_directories(ComponentManager PUBLIC "${PROJECT_DIR}/include")
+target_include_directories(ComponentManager PRIVATE "${PROJECT_DIR}/include/ComponentManager")
 target_include_directories(ComponentManager PRIVATE "${PROJECT_DIR}/source")
 
 target_compile_definitions(ComponentManager PUBLIC "-DCM_SHARED")

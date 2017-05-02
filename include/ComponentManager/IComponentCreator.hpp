@@ -10,7 +10,8 @@
 namespace ComponentManager
 {
 
-/// The object is created based on parsed JSON. It is responsible for making QObjects.
+/// The object is created based on parsed JSON. It is responsible for making QObjects
+
 /**
   There might be different implementations for this interface, depending on
   specific configuration in JSON, for example: factory method creator,
@@ -20,7 +21,7 @@ namespace ComponentManager
  */
 class IComponentCreator
 {
-public: 
+public:
 
   virtual QString
   name() const = 0;
@@ -31,9 +32,5 @@ public:
   virtual
   QObject*
   create() const = 0;
-
-  //virtual
-  //IFunction*
-  //function(QString const &name) = 0;
 };
 }
