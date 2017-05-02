@@ -15,6 +15,6 @@ loadModules(std::vector<QString> const &moduleJsonFiles);
 
 CM_PUBLIC
 void
-loadModule(QString const &moduleJsonFile);
+loadModules(QString const &moduleJsonFile);
 
 }

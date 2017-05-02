@@ -17,16 +17,6 @@
 
 namespace ComponentManager {
 
-void
-loadModules(std::vector<QString> const &moduleJsonFiles)
-{
-  for (auto const & s : moduleJsonFiles)
-  {
-    loadModule(s);
-  }
-}
-
-
 inline
 QString
 constructSharedLibraryPath(QString const &moduleName,
@@ -40,11 +30,10 @@ constructSharedLibraryPath(QString const &moduleName,
 }
 
 
-void
-loadModule(QString const &moduleJsonFile)
+inline
+QJsonObject
+readJsonFile(QString const &jsonFile)
 {
-  // 1. Read json file
-
   if (!QFileInfo::exists(moduleJsonFile))
   {
     qDebug() << "File "
@@ -70,16 +59,28 @@ loadModule(QString const &moduleJsonFile)
              "ComponentManager::loadModule",
              parseError.errorString().toUtf8().constData());
 
-  // 2. Read json structure
+  return jsonObject;
+}
 
-  // 2.1 Module name
 
+inline
+QJsonObject
+readModuleJson(QJsonObject cons &jsonDocument)
+{
   QJsonObject moduleJson = jsonDocument["module"].toObject();
 
   Q_ASSERT_X(!jsonDocument.isEmpty(),
              "ComponentManager::loadModule",
              "Empty module json is loaded.");
 
+  return moduleJson;
+}
+
+
+inline
+void
+loadSharedLibrary(QJsonObject const &moduleJson)
+{
   QString moduleName = moduleJson["name"].toString();
 
   Q_ASSERT_X(!moduleName.isEmpty(),
@@ -106,9 +107,11 @@ loadModule(QString const &moduleJsonFile)
 
   QLibrary module(sharedLibPath);
 
-  QFunctionPointer componentRegistratorFunction = module.resolve("registerComponent");
+  QFunctionPointer componentRegistratorFunction =
+    module.resolve("registerComponent");
 
-  QString cantResolve = QString("Cannot resolve function 'registerComponent' in library:\n %1").arg(sharedLibPath);
+  QString cantResolve =
+    QString("Cannot resolve function 'registerComponent()' in library:\n %1").arg(sharedLibPath);
 
   Q_ASSERT_X(componentRegistratorFunction != nullptr,
              "ModuleLoader",
@@ -116,9 +119,45 @@ loadModule(QString const &moduleJsonFile)
 
   // Register!
   componentRegistratorFunction();
+}
 
-  // 5. Parse declared Components and add them to the global creator
+
+inline
+void
+loadOneModule(QString const &moduleJsonFile,
+              std::vector<FunctionCall> & functionCalls)
+{
+  QJsonObject jsonDocument = readJsonFile(moduleJsonFile);
+
+  QJsonObject moduleJson = readModuleJson(jsonDocument);
+
+  loadSharedLibrary(moduleJson);
+
+  // Parse declared Components and add them to the global creator
 
   Creator::merge(ComponentManager::createComponentCreatorSet(moduleJson));
+
+  loadFunctionCalls(moduleJson);
+}
+
+
+void
+loadModules(std::vector<QString> const &moduleJsonFiles)
+{
+  std::vector<FunctionCall> functionCalls;
+
+  for (auto const & s : moduleJsonFiles)
+  {
+    loadOneModule(s, functionCalls);
+  }
+}
+
+
+void
+loadModules(QString const &moduleJsonFile)
+{
+  std::vector<FunctionCall> functionCalls;
+
+  loadOneModule(moduleJsonFile, functionCalls);
 }
 }
