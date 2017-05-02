@@ -30,15 +30,15 @@ before_build:
 
 build_script:
   - if "%PLATFORM%" == "x86" cmake --build .
-  - if "%PLATFORM%" == "x64" msbuild NodeEditor.sln
-  - if "%PLATFORM%" == "Win32" msbuild NodeEditor.sln
+  - if "%PLATFORM%" == "x64" msbuild ComponentManager.sln
+  - if "%PLATFORM%" == "Win32" msbuild ComponentManager.sln
 
 #build:
   #parallel: true
-  #project: C:\projects\nodeeditor\build\NodeEditor.sln
+  #project: C:\projects\nodeeditor\build\ComponentManager.sln
 
 #build_script:
-  #- msbuild NodeEditor.sln /t:build /p:Configuration=Release
+  #- msbuild ComponentManager.sln /t:build /p:Configuration=Release
 
 #deploy:
   #release: $(APPVEYOR_REPO_TAG_NAME)
