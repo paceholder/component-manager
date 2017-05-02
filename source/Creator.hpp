@@ -6,11 +6,12 @@
 #include <QtCore/QString>
 
 #include "ComponentCreatorSet.hpp"
+#include "Export.hpp"
 
 namespace ComponentManager
 {
 
-class Creator
+class CM_PUBLIC Creator
 {
 public:
 

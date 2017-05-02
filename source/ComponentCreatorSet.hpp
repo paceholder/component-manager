@@ -10,6 +10,7 @@
 #include "QStringStdHash.hpp"
 
 #include "IComponentCreator.hpp"
+#include "Export.hpp"
 
 namespace ComponentManager
 {
@@ -41,9 +42,11 @@ namespace ComponentManager
 using ComponentCreatorSet =
         std::unordered_map<QString, std::unique_ptr<IComponentCreator> >;
 
+CM_PUBLIC
 ComponentCreatorSet
 createComponentCreatorSet(QJsonObject jsonObject);
 
+CM_PUBLIC
 ComponentCreatorSet
 createComponentCreatorSet(QString jsonObjectUtf8);
 }
