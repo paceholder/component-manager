@@ -11,10 +11,13 @@
 namespace ComponentManager
 {
 
-using FunctionSignatureWithArguments =
+namespace Function
+{
+
+using SignatureWithArguments =
         std::vector<std::pair<QString, QString> >;
 
-using FunctionSignatureTypes = std::vector<QString>;
+using SignatureTypes = std::vector<QString>;
 
 /**
    Function expects an array of type
@@ -27,20 +30,20 @@ using FunctionSignatureTypes = std::vector<QString>;
 
    The result is a vector of pairs <type, value>
  */
-FunctionSignatureWithArguments
+SignatureWithArguments
 parseJsonArrayToFunctionSignature(QJsonArray const& jsonArray);
 
 /**
    Overloaded version taking array name as parameter
  */
-FunctionSignatureWithArguments
+SignatureWithArguments
 parseJsonArrayToFunctionSignature(QJsonObject const& jsonObject,
                                   QString const & arrayName);
 
 /**
    Overloaded version taking array name as parameter
  */
-FunctionSignatureTypes
+SignatureTypes
 parseJsonArrayToFunctionSignatureTypes(QJsonObject const& jsonObject,
                                        QString const & arrayName);
 
@@ -51,5 +54,7 @@ parseJsonArrayToFunctionSignatureTypes(QJsonObject const& jsonObject,
  */
 std::pair<std::vector<QGenericArgument>,
           std::vector<QObject*> >
-createArgumentsForFunctionSignature(FunctionSignatureWithArguments const &functionSignature);
+createArgumentsFromSignature(SignatureWithArguments const &functionSignature);
+
+}
 }

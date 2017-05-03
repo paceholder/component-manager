@@ -56,6 +56,6 @@ private:
 
   QString _name;
 
-  FunctionSignatureWithArguments _constructor;
+  Function::SignatureWithArguments _constructor;
 };
 }

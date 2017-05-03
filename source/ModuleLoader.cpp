@@ -14,6 +14,11 @@
 
 #include "Creator.hpp"
 #include "ComponentCreatorSet.hpp"
+#include "FunctionCall.hpp"
+
+
+#include <iostream>
+
 
 namespace ComponentManager {
 
@@ -34,19 +39,19 @@ inline
 QJsonObject
 readJsonFile(QString const &jsonFile)
 {
-  if (!QFileInfo::exists(moduleJsonFile))
+  if (!QFileInfo::exists(jsonFile))
   {
     qDebug() << "File "
-             << moduleJsonFile
+             << jsonFile
              << " does not exist.";
 
-    return;
+    return QJsonObject();
   }
 
-  QFile file(moduleJsonFile);
+  QFile file(jsonFile);
 
   if (!file.open(QIODevice::ReadOnly))
-    return;
+    return QJsonObject();
 
   QByteArray wholeFileData = file.readAll();
 
@@ -59,13 +64,13 @@ readJsonFile(QString const &jsonFile)
              "ComponentManager::loadModule",
              parseError.errorString().toUtf8().constData());
 
-  return jsonObject;
+  return jsonDocument;
 }
 
 
 inline
 QJsonObject
-readModuleJson(QJsonObject cons &jsonDocument)
+readModuleJson(QJsonObject const & jsonDocument)
 {
   QJsonObject moduleJson = jsonDocument["module"].toObject();
 
@@ -122,6 +127,7 @@ loadSharedLibrary(QJsonObject const &moduleJson)
 }
 
 
+
 inline
 void
 loadOneModule(QString const &moduleJsonFile,
@@ -137,7 +143,11 @@ loadOneModule(QString const &moduleJsonFile,
 
   Creator::merge(ComponentManager::createComponentCreatorSet(moduleJson));
 
-  loadFunctionCalls(moduleJson);
+  auto fc = loadFunctionCalls(moduleJson);
+
+  std::move(std::make_move_iterator(fc.begin()),
+            std::make_move_iterator(fc.end()),
+            std::back_inserter(functionCalls));
 }
 
 
@@ -150,6 +160,8 @@ loadModules(std::vector<QString> const &moduleJsonFiles)
   {
     loadOneModule(s, functionCalls);
   }
+
+  invokeFunctionCalls(functionCalls);
 }
 
 
@@ -159,5 +171,7 @@ loadModules(QString const &moduleJsonFile)
   std::vector<FunctionCall> functionCalls;
 
   loadOneModule(moduleJsonFile, functionCalls);
+
+  invokeFunctionCalls(functionCalls);
 }
 }

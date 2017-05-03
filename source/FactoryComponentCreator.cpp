@@ -24,8 +24,8 @@ FactoryComponentCreator(QJsonObject const &json)
   // creating function
   _functionName = json["function"].toString();
 
-  _functionSignature = parseJsonArrayToFunctionSignature(json,
-                                                         "parameters");
+  _functionSignature = Function::parseJsonArrayToFunctionSignature(json,
+                                                                   "parameters");
 }
 
 
@@ -46,7 +46,6 @@ create() const
   // Creator for factory (as a rule for singleton-factory)
   IComponentCreator const* factoryCreator =
     ComponentManager::Creator::has(_factoryName);
-
 
   QObject* factory = factoryCreator->create();
 
@@ -94,15 +93,15 @@ create() const
                                  g7, g8, g9);
     };
 
-  auto aa = createArgumentsForFunctionSignature(_functionSignature);
+  auto const aa = Function::createArgumentsFromSignature(_functionSignature);
 
-  // a copy
+  // a copy of the argument vector
   std::vector<QGenericArgument> genericArguments = aa.first;
 
-  while (genericArguments.size() < numberOfQtArguments)
+  while (genericArguments.size() < Arguments::numberOfQtArguments)
     genericArguments.push_back(QGenericArgument());
 
-  bindVector(f, genericArguments);
+  Arguments::bindVector(f, genericArguments);
 
   return result;
 }

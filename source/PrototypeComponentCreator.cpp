@@ -20,7 +20,7 @@ PrototypeComponentCreator(QJsonObject const &json)
   _name = json["name"].toString();
 
   _constructor =
-    parseJsonArrayToFunctionSignature(json, "constructor_parameters");
+    Function::parseJsonArrayToFunctionSignature(json, "constructor_parameters");
 }
 
 
@@ -56,7 +56,7 @@ create() const
     // a pointer `QObject *`. Then, internally the pointer to a pointer is
     // taken: `QObject**`. Thus, the original pointer `QObject*` must be
     // stored in the scope until the function is invoked.
-    auto const aa = createArgumentsForFunctionSignature(_constructor);
+    auto const aa = Function::createArgumentsFromSignature(_constructor);
 
     // a copy of the argument vector
     std::vector<QGenericArgument> genericArguments = aa.first;
@@ -79,10 +79,10 @@ create() const
       };
 
     // pad vector to get full set of arguments
-    while (genericArguments.size() < numberOfQtArguments)
+    while (genericArguments.size() < Arguments::numberOfQtArguments)
       genericArguments.push_back(QGenericArgument());
 
-    bindVector(f, genericArguments);
+    Arguments::bindVector(f, genericArguments);
   }
 
   Q_ASSERT_X(result != nullptr,

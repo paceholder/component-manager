@@ -24,9 +24,17 @@ SimpleMainWindow::
 }
 
 
+//void
+//SimpleMainWindow::
+//addToToolBar(QAction* action)
+//{
+  //_toolBar->addAction(action);
+//}
+
+
 void
 SimpleMainWindow::
-addToToolBar(QAction* action)
+addToToolBar(QObject* action)
 {
-  _toolBar->addAction(action);
+  _toolBar->addAction((QAction*)action);
 }

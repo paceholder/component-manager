@@ -32,9 +32,8 @@
           { "component" : "CustomAction"}
         ]
       },
-
       {
-        "component" : "MainWindow",
+        "component" : "SimpleMainWindow",
 
         "function" : "addToToolBar",
 

@@ -19,8 +19,13 @@ public:
   virtual
   ~SimpleMainWindow();
 
-  Q_INVOKABLE virtual void
-  addToToolBar(QAction* action);
+  //Q_INVOKABLE
+  //virtual void
+  //addToToolBar(QAction* action);
+
+  Q_INVOKABLE
+  virtual void
+  addToToolBar(QObject* action);
 
 private:
 

@@ -4,10 +4,12 @@
 
 #include <QtCore/QDebug>
 
-namespace  ComponentManager
+namespace ComponentManager
+{
+namespace Function
 {
 
-FunctionSignatureWithArguments
+SignatureWithArguments
 parseJsonArrayToFunctionSignature(QJsonArray const& jsonArray)
 {
   std::vector<std::pair<QString, QString> > result;
@@ -34,7 +36,7 @@ parseJsonArrayToFunctionSignature(QJsonArray const& jsonArray)
 
 //------------------------------------------------------------------------------
 
-FunctionSignatureWithArguments
+SignatureWithArguments
 parseJsonArrayToFunctionSignature(QJsonObject const& jsonObject,
                                   QString const & arrayName)
 {
@@ -45,13 +47,13 @@ parseJsonArrayToFunctionSignature(QJsonObject const& jsonObject,
     return parseJsonArrayToFunctionSignature(paramsJson.toArray());
   }
 
-  return FunctionSignatureWithArguments();
+  return SignatureWithArguments();
 }
 
 
 //------------------------------------------------------------------------------
 
-FunctionSignatureTypes
+SignatureTypes
 parseJsonArrayToFunctionSignatureTypes(QJsonObject const& jsonObject,
                                        QString const & arrayName)
 {
@@ -75,7 +77,7 @@ parseJsonArrayToFunctionSignatureTypes(QJsonObject const& jsonObject,
     }
   }
 
-  return FunctionSignatureTypes();
+  return SignatureTypes();
 }
 
 
@@ -83,7 +85,7 @@ parseJsonArrayToFunctionSignatureTypes(QJsonObject const& jsonObject,
 
 std::pair<std::vector<QGenericArgument>,
           std::vector<QObject*> >
-createArgumentsForFunctionSignature(FunctionSignatureWithArguments const &functionSignature)
+createArgumentsFromSignature(SignatureWithArguments const &functionSignature)
 {
   std::vector<QGenericArgument> result;
   std::vector<QObject*> qobjectStorage;
@@ -130,5 +132,6 @@ createArgumentsForFunctionSignature(FunctionSignatureWithArguments const &functi
 
   return std::make_pair(std::move(result),
                         std::move(qobjectStorage));
+}
 }
 }

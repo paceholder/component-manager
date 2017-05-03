@@ -51,8 +51,11 @@ main(int argc, char* argv[])
 
   auto mainWindow = ComponentManager::create<SimpleMainWindow*>("SimpleMainWindow");
 
-  mainWindow->addToToolBar(ComponentManager::create<QAction*>("CustomAction"));
-  mainWindow->addToToolBar(ComponentManager::create<QAction*>("CustomActionFromFactory"));
+  auto a = ComponentManager::create<QAction*>("CustomAction");
+
+  a->setText("CustomAction (Created Manually)");
+
+  mainWindow->addToToolBar(a);
 
   mainWindow->show();
 

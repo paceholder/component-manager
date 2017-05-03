@@ -34,9 +34,9 @@
    @endcode
  */
 
-
-
 namespace ComponentManager
+{
+namespace Arguments
 {
 
 /// This is a maximum number of arguments taken by QMetaObject::invokeMethod
@@ -58,5 +58,6 @@ bindVector(F f, const V& v, Args&& ... args)
 ->typename std::enable_if < (sizeof ... (Args) < numberOfQtArguments), void > ::type
 {
   bindVector(f, v, std::forward<Args>(args) ..., v.at(sizeof ... (Args)));
+}
 }
 }

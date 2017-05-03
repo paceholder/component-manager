@@ -33,18 +33,15 @@ public:
 
         //---
 
-        //_functions[name] = parseJsonArrayToFunctionSignature(functionJson,
-        //"parameters");
-
-        _functions[name] = parseJsonArrayToFunctionSignatureTypes(functionJson,
-                                                                  "signature");
+        _functions[name] = Function::parseJsonArrayToFunctionSignatureTypes(functionJson,
+                                                                            "signature");
       }
     }
   }
 
 public:
 
-  std::map<QString, FunctionSignatureTypes> const &
+  std::map<QString, Function::SignatureTypes> const &
   functions() const
   {
     return _functions;
@@ -52,6 +49,6 @@ public:
 
 private:
 
-  std::map<QString, FunctionSignatureTypes> _functions;
+  std::map<QString, Function::SignatureTypes> _functions;
 };
 }
