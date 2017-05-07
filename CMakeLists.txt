@@ -19,6 +19,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_EXAMPLES "Build Examples" ON)
 
+get_directory_property(hasParent PARENT_DIRECTORY)
+if(hasParent)
+  set(BUILD_EXAMPLES OFF)
+  message ("Do not build examples for this lib used as a sub-directory.")
+endif()
+
 find_package(Qt5 COMPONENTS
              Core
              Gui)
