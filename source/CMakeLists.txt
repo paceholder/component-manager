@@ -17,10 +17,9 @@ target_include_directories(ComponentManager PRIVATE "${PROJECT_DIR}/source")
 target_compile_definitions(ComponentManager PUBLIC "-DCM_SHARED")
 target_compile_definitions(ComponentManager PRIVATE "-DCM_EXPORTS")
 
-
+# It is possible to use DEFINE_SYMBOL just once
 set_target_properties(ComponentManager PROPERTIES
-                      # DEFINE_SYMBOL CM_SHARED
-                      DEFINE_SYMBOL CM_EXPORTS
+                      #DEFINE_SYMBOL CM_EXPORTS
                       PREFIX        "")
 
 
