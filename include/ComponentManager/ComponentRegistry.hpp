@@ -74,7 +74,6 @@ public:
 
 private:
 
-  //static ComponentRegistry&
   static QHash<QString, RegistryItem const*>&
   registry();
 };

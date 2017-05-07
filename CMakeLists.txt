@@ -17,7 +17,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-#set(CMAKE_BUILD_TYPE Debug)
+option(BUILD_EXAMPLES "Build Examples" ON)
 
 find_package(Qt5 COMPONENTS
              Core
@@ -65,7 +65,9 @@ add_subdirectory("${PROJECT_DIR}/thirdparty")
 add_subdirectory("${PROJECT_DIR}/tests" ./bin)
 
 # Examples
-add_subdirectory("${PROJECT_DIR}/examples" ./examples)
+if(BUILD_EXAMPLES)
+  add_subdirectory("${PROJECT_DIR}/examples" ./examples)
+endif()
 
 # Docs
 #add_subdirectory("${PROJECT_DIR}/doc" ./doc)
