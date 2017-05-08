@@ -56,6 +56,8 @@ private:
 
   QString _name;
 
+  QString _class;
+
   Function::SignatureWithArguments _constructor;
 };
 }

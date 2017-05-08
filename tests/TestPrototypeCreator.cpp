@@ -132,3 +132,74 @@ TEST_CASE("Create prototype with parent object", "[prototype]")
   REQUIRE(qObject->parent()->metaObject()->className() ==
           QStringLiteral("SomePrototypeComponentWithoutParameters"));
 }
+
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/// We create one Component without parameters in constructor and then
+/// create the second component using the latter one as a parent parameter.
+TEST_CASE("Create prototype with parent object and class name", "[prototype]")
+{
+  QString json =
+    R"(
+  {
+    "components" : [
+      {
+        "name" : "SomeFancyComponentName",
+
+        "class" : "SomePrototypeComponentWithParent",
+
+        "construction" : "prototype",
+
+        "constructor_parameters" : [
+            {"component" : "SomePrototypeComponentWithoutParameters" }
+        ]
+      },
+
+      {
+        "name" : "SomePrototypeComponentWithoutParameters",
+        "construction" : "prototype"
+      }
+    ]
+  }
+  )";
+
+  // 1
+  using ComponentManager::Creator;
+
+  Creator::merge(ComponentManager::createComponentCreatorSet(json));
+
+  REQUIRE(Creator::has("SomePrototypeComponentWithoutParameters") != nullptr);
+  REQUIRE(Creator::has("SomeFancyComponentName") != nullptr);
+
+  // 2. Check meta-object registration
+
+  QMetaObject const* registeredObject =
+    ComponentManager::ComponentRegistry::find("SomePrototypeComponentWithoutParameters");
+
+  REQUIRE(registeredObject != nullptr);
+
+  QMetaObject const* registeredObject2 =
+    ComponentManager::ComponentRegistry::find("SomePrototypeComponentWithParent");
+
+  REQUIRE(registeredObject2 != nullptr);
+
+  // 3
+
+  QObject* qObject = ComponentManager::create("SomeFancyComponentName");
+
+  // Note: the parent object is passed to the SomePrototypeComponentWithParent's constructor
+  // implicitly based on the JSON description. Applying the chain rule we create
+  // a parameter-object (parent) by callign the same Creator::create function.
+
+  REQUIRE(qObject != nullptr);
+
+  REQUIRE(qObject->metaObject()->className() ==
+          QStringLiteral("SomePrototypeComponentWithParent"));
+
+  REQUIRE(qObject->parent() != nullptr);
+
+  REQUIRE(qObject->parent()->metaObject()->className() ==
+          QStringLiteral("SomePrototypeComponentWithoutParameters"));
+}

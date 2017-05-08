@@ -30,6 +30,8 @@ private:
 
   QString _name;
 
+  QString _class;
+
   mutable QObject* _instance = nullptr;
 };
 }

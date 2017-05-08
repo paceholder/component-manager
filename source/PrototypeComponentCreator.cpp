@@ -19,6 +19,10 @@ PrototypeComponentCreator(QJsonObject const &json)
 {
   _name = json["name"].toString();
 
+  QString cl = json["class"].toString();
+
+  _class = cl.isEmpty() ? _name : cl;
+
   _constructor =
     Function::parseJsonArrayToFunctionSignature(json, "constructor_parameters");
 }
@@ -43,7 +47,7 @@ create() const
     // TODO add searching for QMetaObject for standard Qt types.
 
     using ComponentManager::ComponentRegistry;
-    QMetaObject const* metaObject = ComponentRegistry::find(_name);
+    QMetaObject const* metaObject = ComponentRegistry::find(_class);
 
     // TODO check nullptr
     result = metaObject->newInstance();
@@ -62,7 +66,7 @@ create() const
     std::vector<QGenericArgument> genericArguments = aa.first;
 
     using ComponentManager::ComponentRegistry;
-    QMetaObject const* metaObject = ComponentRegistry::find(_name);
+    QMetaObject const* metaObject = ComponentRegistry::find(_class);
 
     result = metaObject->newInstance(genericArguments[0]);
 

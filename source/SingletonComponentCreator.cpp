@@ -12,6 +12,10 @@ SingletonComponentCreator(QJsonObject const &doc)
   : FunctionMixture(doc)
 {
   _name = doc["name"].toString();
+
+  QString const cl = doc["class"].toString();
+
+  _class = cl.isEmpty() ? _name : cl;
 }
 
 
@@ -32,7 +36,7 @@ create() const
   if (_instance == nullptr)
   {
     using ComponentManager::ComponentRegistry;
-    QMetaObject const* metaObject = ComponentRegistry::find(_name);
+    QMetaObject const* metaObject = ComponentRegistry::find(_class);
 
     result = metaObject->newInstance();
 
