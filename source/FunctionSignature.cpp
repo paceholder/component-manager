@@ -102,7 +102,7 @@ createArgumentsFromSignature(SignatureWithArguments const &functionSignature)
 
       Q_ASSERT_X(parameter != nullptr,
                  "createArgumentsForFunctionSignature",
-                 "Component parameter is nullptr");
+                 QString("Component parameter '%1' is nullptr").arg(className).toUtf8().constData());
 
       result.push_back(Q_ARG(QObject *, qobjectStorage.back()));
     }

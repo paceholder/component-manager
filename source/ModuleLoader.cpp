@@ -16,9 +16,7 @@
 #include "ComponentCreatorSet.hpp"
 #include "FunctionCall.hpp"
 
-
 #include <iostream>
-
 
 namespace ComponentManager {
 
@@ -104,16 +102,16 @@ loadSharedLibrary(QJsonObject const &moduleJson)
 
   QString sharedLibPath = constructSharedLibraryPath(moduleName, modulePath);
 
-  Q_ASSERT_X(QFileInfo::exists(sharedLibPath),
-             "ComponentManager::loadModule",
-             "Shared library does not exist.");
-
   // 4. Load shared library
 
   QLibrary module(sharedLibPath);
 
   QFunctionPointer componentRegistratorFunction =
     module.resolve("registerComponent");
+
+  Q_ASSERT_X(QFileInfo::exists(module.fileName()),
+             "ComponentManager::loadModule",
+             "Shared library does not exist.");
 
   QString cantResolve =
     QString("Cannot resolve function 'registerComponent()' in library:\n %1").arg(sharedLibPath);

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
+#include <QtCore/QString>
 
-#include <QtCore/QStringList>
+#include <vector>
 
 #include "Export.hpp"
 

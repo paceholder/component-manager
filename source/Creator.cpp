@@ -2,6 +2,8 @@
 
 #include <iterator>
 
+#include <QtCore/QDebug>
+
 namespace ComponentManager
 {
 
@@ -42,7 +44,7 @@ create(QString const &name)
 
   Q_ASSERT_X(it != Creator::instance().end(),
              "ComponentManager",
-             "Component Creator with given name does not exist");
+             QString("Component Creator name '%1' does not exist").arg(name).toUtf8().constData());
 
   return it->second->create();
 }
@@ -56,7 +58,7 @@ has(QString const & name)
 
   Q_ASSERT_X(it != Creator::instance().end(),
              "ComponentManager",
-             "Component Creator with given name does not exist");
+             QString("Component Creator name '%1' does not exist").arg(name).toUtf8().constData());
 
   return it->second.get();
 }
