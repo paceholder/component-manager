@@ -44,9 +44,8 @@ before_install:
    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -qq ; fi
    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install build-essential libgl1-mesa-dev ; fi
    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -yy install qt57base ; fi
-
-before_build:
    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then source '/opt/qt57/bin/qt57-env.sh'; fi
+
 
 script:
   - mkdir build
