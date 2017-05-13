@@ -4,14 +4,13 @@ add_library(ComponentManager SHARED ${CPP_FILES})
 
 set(CM_VERSION_MAJOR 0)
 set(CM_VERSION_MINOR 0)
-set(CM_VERSION_PATCH 1)
+set(CM_VERSION_PATCH 2)
 set(CM_VERSION ${CM_VERSION_MAJOR}.${CM_VERSION_MINOR}.${CM_VERSION_PATCH} )
 
 set_target_properties(ComponentManager PROPERTIES VERSION ${CM_VERSION}
                                                   SOVERSION ${CM_VERSION_MAJOR} )
 
 target_include_directories(ComponentManager PUBLIC "${PROJECT_DIR}/include")
-target_include_directories(ComponentManager PUBLIC "${PROJECT_DIR}/source")
 target_include_directories(ComponentManager PRIVATE "${PROJECT_DIR}/include/ComponentManager")
 target_include_directories(ComponentManager PRIVATE "${PROJECT_DIR}/source")
 

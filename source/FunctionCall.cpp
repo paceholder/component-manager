@@ -6,6 +6,7 @@
 
 #include "InvokeMethodVectorBinding.hpp"
 #include "Creator.hpp"
+#include "FunctionSignature.hpp"
 
 namespace ComponentManager
 {

@@ -4,8 +4,7 @@
 #include <ComponentManager/ComponentCreatorSet>
 #include <ComponentManager/IComponentCreator>
 #include <ComponentManager/Creator>
-
-#include "FunctionCall.hpp"
+#include <ComponentManager/FunctionCall>
 
 #include <QtCore/QDebug>
 #include <QtCore/QJsonDocument>

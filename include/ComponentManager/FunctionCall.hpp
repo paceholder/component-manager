@@ -1,17 +1,20 @@
 #pragma once
 
 #include <tuple>
+#include <vector>
 
 #include <QtCore/QJsonObject>
+#include <QtCore/QString>
 
-#include "FunctionSignature.hpp"
+#include "Export.hpp"
 
 namespace ComponentManager
 {
 
-using FunctionCall = std::tuple<QString,
+// (Component, Function, Signature(Type, Value))
+using FunctionCall = std::tuple<QString, 
                                 QString,
-                                Function::SignatureWithArguments>;
+                                std::vector<std::pair<QString, QString> > >;
 
 /**
    Function fetches the array of function call descriptors
@@ -40,6 +43,7 @@ using FunctionCall = std::tuple<QString,
    - `Function::SignatureWithArguments` list of arguments
  */
 std::vector<FunctionCall>
+CM_PUBLIC
 loadFunctionCalls(QJsonObject const & moduleJson);
 
 /**
@@ -48,5 +52,6 @@ loadFunctionCalls(QJsonObject const & moduleJson);
    type-argument pairs
  */
 void
+CM_PUBLIC
 invokeFunctionCalls(std::vector<FunctionCall> const &functionCalls);
 }
