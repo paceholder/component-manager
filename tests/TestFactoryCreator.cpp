@@ -47,7 +47,6 @@ public:
   QObject*
   createObject(QObject *parent, int a)
   {
-    qDebug() << "Parameter " << a;
     return new ObjectCreatedByFactory(parent);
   }
 };

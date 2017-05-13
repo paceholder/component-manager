@@ -60,13 +60,13 @@ create() const
 
   Q_ASSERT_X(it != functionMixture->functions().end(),
              "FactoryComponentCreator",
-             "Function was not defined in factory");
+             qUtf8Printable(QString("Function '%1' was not defined in factory").arg(_functionName)));
 
   auto const declaredFunctionSignature = it->second;
 
   Q_ASSERT_X(declaredFunctionSignature.size() == _functionSignature.size(),
              "FactoryComponentCreator",
-             "Declared and required function signatures differ in size");
+             qUtf8Printable(QString("Declared and required function '%1' signatures differ in size").arg(_functionName)));
 
   for (std::size_t i = 0; i < declaredFunctionSignature.size(); ++i)
   {

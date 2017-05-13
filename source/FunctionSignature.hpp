@@ -14,18 +14,22 @@ namespace ComponentManager
 namespace Function
 {
 
+//  Type       :  Value
+// --------------------------
+// "component" : "MainWindow"
+// "int"       : "4"
 using SignatureWithArguments =
         std::vector<std::pair<QString, QString> >;
 
 using SignatureTypes = std::vector<QString>;
 
 /**
-   Function expects an array of type
+   Function expects an array of the form:
 
    @code{.json}
-   "parameters" : [
-    { "component" : "MainWindow" }
-   ]
+     "parameters" : [
+       { "component" : "MainWindow" }
+     ]
    @endcode
 
    The result is a vector of pairs <type, value>
@@ -47,14 +51,15 @@ SignatureTypes
 parseJsonArrayToFunctionSignatureTypes(QJsonObject const& jsonObject,
                                        QString const & arrayName);
 
+using GenericArumentsWithObjects = std::pair<std::vector<QGenericArgument>,
+                                             std::vector<QObject*> >;
+
 /**
    Function creates QObjects required for passing as parameters
    to the other component constructors and wraps them
    with the macro Q_ARG() producing a vector of QGenericArgutment
  */
-std::pair<std::vector<QGenericArgument>,
-          std::vector<QObject*> >
+GenericArumentsWithObjects
 createArgumentsFromSignature(SignatureWithArguments const &functionSignature);
-
 }
 }

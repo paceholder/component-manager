@@ -77,7 +77,7 @@ parseJsonArrayToFunctionSignatureTypes(QJsonObject const& jsonObject,
     }
   }
 
-  return SignatureTypes();
+  return result;
 }
 
 

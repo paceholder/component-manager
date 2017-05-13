@@ -11,6 +11,7 @@ set_target_properties(ComponentManager PROPERTIES VERSION ${CM_VERSION}
                                                   SOVERSION ${CM_VERSION_MAJOR} )
 
 target_include_directories(ComponentManager PUBLIC "${PROJECT_DIR}/include")
+target_include_directories(ComponentManager PUBLIC "${PROJECT_DIR}/source")
 target_include_directories(ComponentManager PRIVATE "${PROJECT_DIR}/include/ComponentManager")
 target_include_directories(ComponentManager PRIVATE "${PROJECT_DIR}/source")
 

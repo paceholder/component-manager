@@ -3,6 +3,7 @@
 #include <map>
 
 #include <QtCore/QJsonArray>
+#include <QtCore/QDebug>
 
 #include "FunctionSignature.hpp"
 
