@@ -51,8 +51,8 @@ public:
 
 extern "C"
 {
-  void
   CPP_EXPORT_MACRO
+  void
   registerComponent()
   {
     REGISTER_TYPE(CustomAction);
@@ -84,7 +84,7 @@ extern "C"
 
 
 
-### 3. Write main application with using modules
+### 3. Write main application using modules
 
 ```cpp
 #include <ComponentManager/ModuleLoader>
