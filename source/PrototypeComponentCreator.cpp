@@ -50,11 +50,6 @@ create() const
   using ComponentManager::ComponentRegistry;
   QMetaObject const* metaObject = ComponentRegistry::find(_class);
 
-  // find available constructors
-
-  auto candidateConstructors =
-    ComponentManager::Function::findConstructors(metaObject, 1);
-
   // the Qt's macro Q_ARG("QObject*", b) expects the parameter `b` to be
   // a pointer `QObject *`. Then, internally the pointer to a pointer is
   // taken: `QObject**`. Thus, the original pointer `QObject*` must be

@@ -67,7 +67,7 @@ public:
   }
 
   Q_INVOKABLE 
-  QObject*
+  CustomActionFromFactory*
   createCustomAction(QObject* parent)
   {
     qDebug() << "Function 'createCustomAction' is being invoked";

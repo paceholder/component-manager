@@ -6,10 +6,10 @@
 #include "Creator.hpp"
 #include "FactoryComponentCreator.hpp"
 #include "FunctionMixture.hpp"
+#include "FunctionUtilities.hpp"
 #include "InvokeMethodVectorBinding.hpp"
 
 #include <functional>
-#include <iostream>
 
 namespace ComponentManager
 {
@@ -75,8 +75,23 @@ create() const
                "Different argutment types");
   }
 
+  //--------------------------
+
+  auto const genericArguments = Function::createArgumentsFromSignature(_functionSignature);
+
+  auto candidateMethods = Function::findFunctions(factory->metaObject(),
+                                                  _functionName,
+                                                  _functionSignature.size());
+
+  // method to call
+  QMetaMethod method = Function::findFunction(candidateMethods,
+                                              _functionSignature,
+                                              genericArguments.second);
+
   // a wrapper for the return variable
-  auto returnArgument = Q_RETURN_ARG(QObject *, result);
+  QGenericReturnArgument returnArgument(method.typeName(),
+                                        static_cast<void*>(&result));
+
 
   // lambda wrapper around QMetaObject::invokeMethod
   // it takes just nine QGenericArgument parameters
@@ -85,23 +100,20 @@ create() const
         QGenericArgument g4, QGenericArgument g5, QGenericArgument g6,
         QGenericArgument g7, QGenericArgument g8, QGenericArgument g9)
     {
-      QMetaObject::invokeMethod (factory,
-                                 _functionName.toUtf8().constData(),
-                                 returnArgument,
-                                 g1, g2, g3,
-                                 g4, g5, g6,
-                                 g7, g8, g9);
+      method.invoke(factory,
+                    returnArgument,
+                    g1, g2, g3,
+                    g4, g5, g6,
+                    g7, g8, g9);
     };
 
-  auto const aa = Function::createArgumentsFromSignature(_functionSignature);
-
   // a copy of the argument vector
-  std::vector<QGenericArgument> genericArguments = aa.first;
+  std::vector<QGenericArgument> generics = genericArguments.first;
 
-  while (genericArguments.size() < Arguments::numberOfQtArguments)
-    genericArguments.push_back(QGenericArgument());
+  while (generics.size() < Arguments::numberOfQtArguments)
+    generics.push_back(QGenericArgument());
 
-  Arguments::bindVector(f, genericArguments);
+  Arguments::bindVector(f, generics);
 
   return result;
 }

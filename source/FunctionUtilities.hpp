@@ -37,7 +37,7 @@ findFunctions(QMetaObject const *metaObject,
   return result;
 }
 
-
+#if 0
 inline
 std::vector<QMetaMethod>
 findConstructors(QMetaObject const * metaObject,
@@ -62,6 +62,7 @@ findConstructors(QMetaObject const * metaObject,
 
   return result;
 }
+#endif
 
 
 inline
@@ -118,22 +119,6 @@ findFunction(std::vector<QMetaMethod> candidateMethods,
 
   return QMetaMethod();
 }
-
-
-//inline
-//QMetaMethod
-//findFunction(QMetaObject const * metaObject,
-             //QString const & functionName,
-             //Function::SignatureWithArguments const &arguments,
-             //std::vector<QObject*> const & qObjectArguments)
-//{
-  //std::vector<QMetaMethod> candidateMethods =
-    //findFunctions(metaObject, functionName, arguments.size());
-
-  //return findFunction(candidateMethods,
-                      //arguments,
-                      //qObjectArguments);
-//}
 
 
 //

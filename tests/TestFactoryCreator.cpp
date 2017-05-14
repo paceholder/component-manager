@@ -44,7 +44,7 @@ public:
   {}
 
   Q_INVOKABLE
-  QObject*
+  ObjectCreatedByFactory*
   createObject(QObject *parent, int a)
   {
     return new ObjectCreatedByFactory(parent);
