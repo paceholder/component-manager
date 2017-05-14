@@ -4,6 +4,8 @@
 
 #include <QtCore/QDebug>
 
+#include <iostream>
+
 namespace ComponentManager
 {
 namespace Function

@@ -7,8 +7,28 @@
 
 #include <QDebug>
 
-#include "SomePrototypeComponentWithParent.hpp"
-#include "SomePrototypeComponentWithoutParameters.hpp"
+class SomePrototypeComponentWithoutParameters : public QObject
+{
+  Q_OBJECT
+public:
+  Q_INVOKABLE
+  SomePrototypeComponentWithoutParameters()
+  {}
+};
+
+class SomePrototypeComponentWithParent : public QObject
+{
+  Q_OBJECT
+
+public:
+
+  Q_INVOKABLE
+  SomePrototypeComponentWithParent(QObject * parent)
+    : QObject(parent)
+  { }
+};
+
+#include "TestPrototypeCreator.moc"
 
 REGISTER_TYPE_CPP(SomePrototypeComponentWithoutParameters)
 REGISTER_TYPE_CPP(SomePrototypeComponentWithParent)
@@ -16,7 +36,6 @@ REGISTER_TYPE_CPP(SomePrototypeComponentWithParent)
 /// Here we test instantiation of components defined as "prototypes"
 /// Some of them could have parent objects (constructor parameters),
 /// some of them are created without parents
-
 
 /// Test parses a JSON component array and checks if the corresponding
 /// instances of Creators were intantiated in ComponentCreatorSet
@@ -27,12 +46,12 @@ TEST_CASE("Create prototype without parameters", "[prototype]")
   {
     "components" : [
       {
-        "name" : "SomePrototypeComponentWithoutParameters",
-        "construction" : "prototype"
+      "name" : "SomePrototypeComponentWithoutParameters",
+      "construction" : "prototype"
       }
     ]
   }
-  )";
+    )";
 
   // 1. Is parsing correct?
 
@@ -133,7 +152,6 @@ TEST_CASE("Create prototype with parent object", "[prototype]")
           QStringLiteral("SomePrototypeComponentWithoutParameters"));
 }
 
-
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
@@ -153,7 +171,7 @@ TEST_CASE("Create prototype with parent object and class name", "[prototype]")
         "construction" : "prototype",
 
         "constructor_parameters" : [
-            {"component" : "SomePrototypeComponentWithoutParameters" }
+          {"component" : "SomePrototypeComponentWithoutParameters" }
         ]
       },
 
@@ -163,7 +181,7 @@ TEST_CASE("Create prototype with parent object and class name", "[prototype]")
       }
     ]
   }
-  )";
+    )";
 
   // 1
   using ComponentManager::Creator;

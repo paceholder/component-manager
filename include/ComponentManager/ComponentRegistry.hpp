@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtCore/QMetaObject>
+#include <QtCore/QMetaType>
 #include <QtCore/QString>
 #include <QtCore/QHash>
 

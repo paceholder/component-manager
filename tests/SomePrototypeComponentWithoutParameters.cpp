@@ -1,1 +1,0 @@
-#include "SomePrototypeComponentWithoutParameters.hpp"

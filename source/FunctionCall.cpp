@@ -5,8 +5,12 @@
 #include <QtCore/QMetaMethod>
 
 #include "InvokeMethodVectorBinding.hpp"
+
 #include "Creator.hpp"
+
 #include "FunctionSignature.hpp"
+
+#include "FunctionUtilities.hpp"
 
 namespace ComponentManager
 {
@@ -43,95 +47,6 @@ loadFunctionCalls(QJsonObject const & moduleJson)
 }
 
 
-inline
-std::vector<QMetaMethod>
-findFunctions(QObject const *obj,
-              QString const &functionName,
-              unsigned int parameterCount)
-{
-  std::vector<QMetaMethod> result;
-
-  QMetaObject const * metaObject = obj->metaObject();
-
-  for (int i = 0; i < metaObject->methodCount(); ++i)
-  {
-    QMetaMethod method = metaObject->method(i);
-
-    unsigned int declaredParameterCount =
-      static_cast<unsigned int>(method.parameterCount());
-
-    if (functionName == method.name() &&
-        parameterCount == declaredParameterCount)
-    {
-      result.push_back(std::move(method));
-    }
-  }
-
-  return result;
-}
-
-
-inline
-QMetaMethod
-findFunction(QObject const *obj,
-             QString const & functionName,
-             Function::SignatureWithArguments const &arguments,
-             Function::GenericArumentsWithObjects const &generics
-             )
-{
-  std::vector<QMetaMethod> candidateMethods =
-    findFunctions(obj, functionName, arguments.size());
-
-  bool functionIsOkToUse = true;
-
-  for (QMetaMethod const &m : candidateMethods)
-  {
-    functionIsOkToUse = true;
-
-    unsigned int c = 0;
-
-    // check each parameter
-    // give object must inherit the expected class
-    for (int i = 0; i < m.parameterCount(); ++i)
-    {
-      if (arguments[i].first == QStringLiteral("component"))
-      {
-        int parameterType = m.parameterType(i);
-
-        QMetaObject const * expectedMetaObject =
-          QMetaType::metaObjectForType(parameterType);
-
-        QMetaObject const * givenMetaObject =
-          generics.second[c]->metaObject();;
-
-        if (givenMetaObject->inherits(expectedMetaObject))
-        {
-          // it is OK
-        }
-        else
-        {
-          functionIsOkToUse = false;
-          break;
-        }
-
-        ++c;
-      }
-
-      if (!functionIsOkToUse)
-        break;
-    }
-
-    if (functionIsOkToUse)
-    {
-      // target function has been found -- return immediately
-      return m;
-    }
-  }
-
-  return QMetaMethod();
-}
-
-
 void
 invokeFunctionCalls(std::vector<FunctionCall> const &functionCalls)
 {
@@ -148,16 +63,19 @@ invokeFunctionCalls(std::vector<FunctionCall> const &functionCalls)
 
     auto component = ComponentManager::create(componentName);
 
-    auto const generics = Function::createArgumentsFromSignature(arguments);
+    auto const genericArguments = Function::createArgumentsFromSignature(arguments);
+
+    auto candidateMethods = Function::findFunctions(component->metaObject(),
+                                                    functionName,
+                                                    arguments.size());
 
     // method to call
-    QMetaMethod method = findFunction(component,
-                                      functionName,
-                                      arguments,
-                                      generics);
+    QMetaMethod method = Function::findFunction(candidateMethods,
+                                                arguments,
+                                                genericArguments.second);
 
     // a copy of the argument vector
-    std::vector<QGenericArgument> genericArguments = generics.first;
+    std::vector<QGenericArgument> generics = genericArguments.first;
 
     auto f =
       [&](QGenericArgument g1, QGenericArgument g2, QGenericArgument g3,
@@ -171,10 +89,10 @@ invokeFunctionCalls(std::vector<FunctionCall> const &functionCalls)
       };
 
     // pad vector to get full set of arguments
-    while (genericArguments.size() < Arguments::numberOfQtArguments)
-      genericArguments.push_back(QGenericArgument());
+    while (generics.size() < Arguments::numberOfQtArguments)
+      generics.push_back(QGenericArgument());
 
-    Arguments::bindVector(f, genericArguments);
+    Arguments::bindVector(f, generics);
   }
 }
 }
